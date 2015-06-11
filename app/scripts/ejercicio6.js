@@ -99,14 +99,12 @@
            // Llamamos a la funcion que busca las clinicas y las añade al select
            cargarTarifas();
            // Seleccionamos y separamos las clinicas de la vista
-           var listaClinicas = aData.idClinica;
+           var listaClinicas = aData.id_clinicas;
            listaClinicas = listaClinicas.split(",");
             // Añadimos las clinicas del doctor al select como selected
            $('#CLiniks').val(listaClinicas); 
 
-
-
-       });
+        });
 
        $('#miTabla').on('click', '.borrarbtn', function(e) {
            e.preventDefault();
@@ -114,6 +112,8 @@
            var aData = miTabla.row(nRow).data();
            var idDoctortor = aData.idDOctor;
 
+           if (confirm("vas a borrar al DR. está ud. seguro?"))
+           {
            $.ajax({
                /*en principio el type para api restful sería delete pero no lo recogeríamos en $_REQUEST, así que queda como POST*/
                type: 'POST',
@@ -132,10 +132,10 @@
                    //var mensaje = (data["mensaje"]) //o data[0], en función del tipo de array!!
                    //actualizamos datatables:
                    /*para volver a pedir vía ajax los datos de la tabla*/
-                   alert("success");
-
+                    alert("borrado");
                     var $mitabla = $("#miTabla").dataTable( { bRetrieve : true } );
                     $mitabla.fnDraw();
+                    
                },
                complete: {
                    //si queremos hacer algo al terminar la petición ajax
@@ -143,6 +143,7 @@
 
                }
            });
+          }
        });
 
         $('#enviar').click(function(e) {
@@ -150,9 +151,8 @@
            idDoctor = $('#idDOCTOR').val();
            nombre = $('#nombre').val();
            numCol = $('#numColegiado').val();
-           //clinicasElegidas = $('#CLiniks').val();
-
-           alert("entramos en ajax"+ idDoctor);
+           clinicasElegidas = $('#CLiniks').val();
+           
            $.ajax({
                type: 'POST',
                dataType: 'json',
@@ -164,7 +164,8 @@
                data: {
                    id_doctor: idDoctor,
                    nombre: nombre,
-                   colegiado:numCol
+                   colegiado:numCol,
+                   clins:clinicasElegidas
                },
 
                error: function(xhr, status, error) {
