@@ -55,6 +55,32 @@
                }
            }]
        });
+        function cargarTarifas() {
+           $.ajax({
+               type: 'POST',
+               dataType: 'json',
+               url: 'php/listar_tarifas.php',
+               async: false,
+               //estos son los datos que queremos actualizar, en json:
+               // {parametro1: valor1, parametro2, valor2, ….}
+               //data: { id_clinica: id_clinica, nombre: nombre, ….,  id_tarifa: id_tarifa },
+               error: function(xhr, status, error) {
+                   //mostraríamos alguna ventana de alerta con el error
+               },
+               success: function(data) {
+                   $('#CLiniks').empty();
+                   $.each(data, function() {
+                       $('#CLiniks').append(
+                           $('<option></option>').val(this.idClinica).html(this.nombre)
+                       );
+                   });
+               },
+               complete: {
+                   //si queremos hacer algo al terminar la petición ajax
+               }
+           });
+       }
+       cargarTarifas();
 
        /*Creamos la función que muestre el formulario cuando hagamos click*/
        /*ojo, es necesario hacerlo con el método ON. Tanto por rendimiento como porque puede haber elementos (botones) que todavía no existan en el document.ready*/
@@ -68,6 +94,18 @@
            $('#idDOCTOR').val(aData.idDOctor);
            $('#nombre').val(aData.nombre);
            $('#numColegiado').val(aData.numColegiado);
+
+           $('#CLiniks').val(aData.nombreClinica);
+           // Llamamos a la funcion que busca las clinicas y las añade al select
+           cargarTarifas();
+           // Seleccionamos y separamos las clinicas de la vista
+           var listaClinicas = aData.idClinica;
+           listaClinicas = listaClinicas.split(",");
+            // Añadimos las clinicas del doctor al select como selected
+           $('#CLiniks').val(listaClinicas); 
+
+
+
        });
 
        $('#miTabla').on('click', '.borrarbtn', function(e) {
@@ -96,7 +134,7 @@
                    //actualizamos datatables:
                    /*para volver a pedir vía ajax los datos de la tabla*/
                    alert("success");
-                   
+
                     var $mitabla = $("#miTabla").dataTable( { bRetrieve : true } );
                     $mitabla.fnDraw();
                },
