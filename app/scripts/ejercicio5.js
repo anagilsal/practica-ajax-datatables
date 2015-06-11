@@ -29,27 +29,17 @@
                }
            },
            'columns': [{
-               'data': 'idClinica'
+               'data': 'idDOctor'
            }, {
                'data': 'nombre'
            }, {
-               'data': 'razonSocial'
+               'data': 'numColegiado'
            }, {
-               'data': 'cif'
+               'data': 'id_clinicas'
            }, {
-               'data': 'localidad'
+               'data': 'clinicas'
            }, {
-               'data': 'provincia'
-           }, {
-               'data': 'direccion'
-           }, {
-               'data': 'numClinica'
-           }, {
-               'data': 'idTarifa'
-           }, {
-               'data': 'nombreTarifa'
-           }, {
-               'data': 'idClinica',
+               'data': 'idDOctor2',
                'render': function(data) {
                    return '<a class="btn btn-primary" href=http://localhost/php/editar.php?id_clinica=' + data + '>Editar</a><a class="btn btn-warning" href=http://localhost/php/borrar.php?id_clinica=' + data + '>Borrar</a>';
                }
