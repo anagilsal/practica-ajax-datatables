@@ -29,33 +29,27 @@
                }
            },
            'columns': [{
-               'data': 'idClinica'
+               'data': 'idDOctor'
            }, {
                'data': 'nombre'
            }, {
-               'data': 'razonSocial'
+               'data': 'numColegiado'
            }, {
-               'data': 'cif'
+               'data': 'id_clinicas'
            }, {
-               'data': 'localidad'
-           }, {
-               'data': 'provincia'
-           }, {
-               'data': 'direccion'
-           }, {
-               'data': 'cp'
-           }, {
-               'data': 'numClinica'
-           }, {
-               'data': 'idTarifa'
-           }, {
-               'data': 'nombreTarifa'
-           }, {
-               'data': 'idClinica',
-               /*añadimos las clases editarbtn y borrarbtn para procesar los eventos click de los botones. No lo hacemos mediante id ya que habrá más de un
-               botón de edición o borrado*/
+               'data': 'clinicas',
                'render': function(data) {
-                   return '<a class="btn btn-primary editarbtn" href=http://localhost/php/editar.php?id_clinica=' + data + '>Editar</a><a class="btn btn-warning borrarbtn" href=http://localhost/php/borrar.php?id_clinica=' + data + '>Borrar</a>';
+                clinics = data.split(', ');
+                var lista = "";
+                $.each(clinics, function(ind, clinicas) {
+                    lista = lista + '<li>' + clinicas + '</li><br>';
+                });
+                return lista;
+            }
+           }, {
+               'data': 'idDOctor2',
+               'render': function(data) {
+                   return '<a class="btn btn-primary editarbtn" href=http://localhost/php/editar.php?id_clinica=' + data + '>Editar</a><a class="btn btn-warning" href=http://localhost/php/borrar.php?id_clinica=' + data + '>Borrar</a>';
                }
            }]
        });
@@ -69,20 +63,9 @@
 
            var nRow = $(this).parents('tr')[0];
            var aData = miTabla.row(nRow).data();
-           $('#idClinica').val(aData.idClinica);
+           $('#idDOCTOR').val(aData.idDOCTOR);
            $('#nombre').val(aData.nombre);
-           $('#numClinica').val(aData.numClinica);
-           $('#razonSocial').val(aData.razonSocial);
-           $('#cif').val(aData.cif);
-           $('#localidad').val(aData.localidad);
-           /*lo más cómodo para la provincia sería esto:
-           $('#provincia').val(aData.provincia);
-           pero como el valor de la provincia viene con digitos en el html (atributo val), tenemos que selecionar por el texto contenido:*/
-           $('#provincia option').filter(function() {
-               return this.text.toLowerCase() === aData.provincia.toLowerCase();
-           }).attr('selected', true);
-           $('#direccion').val(aData.direccion);
-           $('#cp').val(aData.cp);
+           $('#numColegiado').val(aData.numColegiado);
        });
 
 
