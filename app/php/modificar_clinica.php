@@ -34,25 +34,15 @@ mysql_query('SET names utf8');
  * Get data to display
  */
 
-$id = $_POST["id_clinica"];
+$doc = $_POST["id_doctor"];
 $nombre = $_POST["nombre"];
-$localidad = $_POST["localidad"];
-$provincia = $_POST["provincia"];
-$direccion = $_POST["direccion"];
-$cp = $_POST["cp"];
-$id_tarifa = $_POST["id_tarifa"];
-$cif = $_POST["cif"];
+$Ncol = $_POST["colegiado"];
 
 /* Consulta UPDATE */
-$query = "UPDATE clinicas SET 
-            nombre = '" . $nombre . "', 
-            localidad = '" . $localidad . "', 
-            provincia = '" . $provincia . "', 
-            direccion = '" . $direccion . "', 
-            cp = '" . $cp . "',
-            id_tarifa = '" . $id_tarifa . "',
-            cif = '" . $cif . "'
-            WHERE id_clinica = " . $id;
+$query = "UPDATE doctores SET 
+            nombre = '" . $nombre . "',
+            numcolegiado = '" . $Ncol. "'
+            WHERE id_doctor = " . $doc;
 
 //mysql_query($query, $gaSql['link']) or fatal_error('MySQL Error: ' . mysql_errno());
 /*En función del resultado correcto o no, mostraremos el mensaje que corresponda*/

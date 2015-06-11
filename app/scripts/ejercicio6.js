@@ -113,7 +113,6 @@
            var nRow = $(this).parents('tr')[0];
            var aData = miTabla.row(nRow).data();
            var idDoctortor = aData.idDOctor;
-           alert("entramos en ajax"+ idDoctortor);
 
            $.ajax({
                /*en principio el type para api restful sería delete pero no lo recogeríamos en $_REQUEST, así que queda como POST*/
@@ -144,6 +143,45 @@
 
                }
            });
+       });
+
+        $('#enviar').click(function(e) {
+           e.preventDefault();
+           idDoctor = $('#idDOCTOR').val();
+           nombre = $('#nombre').val();
+           numCol = $('#numColegiado').val();
+           //clinicasElegidas = $('#CLiniks').val();
+
+           alert("entramos en ajax"+ idDoctor);
+           $.ajax({
+               type: 'POST',
+               dataType: 'json',
+               url: 'php/modificar_clinica.php',
+               //lo más cómodo sería mandar los datos mediante 
+               //var data = $( "form" ).serialize();
+               //pero como el php tiene otros nombres de variables, lo dejo así
+               //estos son los datos que queremos actualizar, en json:
+               data: {
+                   id_doctor: idDoctor,
+                   nombre: nombre,
+                   colegiado:numCol
+               },
+
+               error: function(xhr, status, error) {
+                   //mostraríamos alguna ventana de alerta con el error
+               },
+               success: function(data) {
+                  var $mitabla =  $("#miTabla").dataTable( { bRetrieve : true } );
+                  $mitabla.fnDraw();
+               },
+               complete: {
+                   //si queremos hacer algo al terminar la petición ajax
+               }
+           });
+
+           $('#tabla').fadeIn(100);
+           $('#formulario').fadeOut(100);
+
        });
 
 
