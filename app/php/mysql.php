@@ -1,6 +1,6 @@
 <?php
-$gaSql['user'] = "root";
-$gaSql['password'] = "root";
-$gaSql['db'] = "datatables";
+$gaSql['user'] = "anagil_root";
+$gaSql['password'] = "rootroot";
+$gaSql['db'] = "anagil_data";
 $gaSql['server'] = "localhost";
 ?>

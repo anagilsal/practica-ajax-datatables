@@ -44,9 +44,9 @@ $columns = array(
  
 // SQL server connection information
 $sql_details = array(
-    'user' => 'root',
-    'pass' => 'root',
-    'db'   => 'datatables',
+    'user' => 'anagil_root',
+    'pass' => 'rootroot',
+    'db'   => 'anagil_data',
     'host' => 'localhost'
 );
  

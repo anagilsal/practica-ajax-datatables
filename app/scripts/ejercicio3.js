@@ -29,23 +29,11 @@
                } 
            },
            'columns': [{
-                   'data': 'id_clinica'
+                   'data': 'idDoctor'
                }, {
-                   'data': 'nombre'
+                   'data': 'Nombre'
                }, {
-                   'data': 'razonsocial'
-               }, {
-                   'data': 'cif'
-               }, {
-                   'data': 'localidad'
-               }, {
-                   'data': 'provincia'
-               }, {
-                   'data': 'direccion'
-               }, {
-                   'data': 'numclinica'
-               }, {
-                   'data': 'id_tarifa'
+                   'data': 'NumCOlegiado'
                }
 
                ]

@@ -19,32 +19,26 @@
  */
  
 // DB table to use
-$table = 'clinicas';
+$table = 'doctores';
  
 // Table's primary key
-$primaryKey = 'id_clinica';
+$primaryKey = 'id_doctor';
  
 // Array of database columns which should be read and sent back to DataTables.
 // The `db` parameter represents the column name in the database, while the `dt`
 // parameter represents the DataTables column identifier. In this case simple
 // indexes
 $columns = array(
-    array( 'db' => 'id_clinica', 'dt' => 'idClinica' ),
-    array( 'db' => 'nombre',  'dt' => 'nombre' ),
-    array( 'db' => 'razonsocial',   'dt' => 'razonSocial' ),
-    array( 'db' => 'cif',     'dt' => 'cif' ),
-    array( 'db' => 'localidad', 'dt' => 'localidad' ),
-    array( 'db' => 'provincia',  'dt' => 'provincia' ),
-    array( 'db' => 'direccion',   'dt' => 'direccion' ),
-    array( 'db' => 'numclinica',     'dt' => 'numClinica' ),
-    array( 'db' => 'id_tarifa',     'dt' => 'idTarifa' )
+    array( 'db' => 'id_doctor', 'dt' => 'idDoctor' ),
+    array( 'db' => 'nombre',  'dt' => 'Nombre' ),
+    array( 'db' => 'numcolegiado',   'dt' => 'NumCOlegiado' )
 );
  
 // SQL server connection information
 $sql_details = array(
-    'user' => 'root',
-    'pass' => 'root',
-    'db'   => 'datatables',
+    'user' => 'anagil_root',
+    'pass' => 'rootroot',
+    'db'   => 'anagil_data',
     'host' => 'localhost'
 );
  
