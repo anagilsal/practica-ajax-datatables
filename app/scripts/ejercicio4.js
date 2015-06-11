@@ -29,11 +29,11 @@
                }
            },
            'columns': [{
-               'data': 'idDoctor'
+               'data': 'NumCOlegiado'
            }, {
                'data': 'Nombre'
            }, {
-               'data': 'NumCOlegiado',
+               'data': 'idDoctor',
                'render': function(data) {
                    return '<a class="btn btn-primary" href=http://localhost/php/editar.php?NumCOlegiado=' + data + '>Editar</a><a class="btn btn-warning" href=http://localhost/php/borrar.php?NumCOlegiado=' + data + '>Borrar</a>';
                }
