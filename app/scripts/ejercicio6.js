@@ -49,7 +49,9 @@
            }, {
                'data': 'idDOctor2',
                'render': function(data) {
-                   return '<a class="btn btn-primary editarbtn" href=http://localhost/php/editar.php?id_clinica=' + data + '>Editar</a><a class="btn btn-warning" href=http://localhost/php/borrar.php?id_clinica=' + data + '>Borrar</a>';
+                   return '<a class="btn btn-primary editarbtn" href=http://localhost/php/editar.php?id_doctor=' + data + 
+                   '>Editar</a><a class="btn btn-warning borrarbtn" href=http://localhost/php/borrar.php?id_doctor=' + data + 
+                   '>Borrar</a>';
                }
            }]
        });
@@ -63,9 +65,47 @@
 
            var nRow = $(this).parents('tr')[0];
            var aData = miTabla.row(nRow).data();
-           $('#idDOCTOR').val(aData.idDOCTOR);
+           $('#idDOCTOR').val(aData.idDOctor);
            $('#nombre').val(aData.nombre);
            $('#numColegiado').val(aData.numColegiado);
+       });
+
+       $('#miTabla').on('click', '.borrarbtn', function(e) {
+           e.preventDefault();
+           var nRow = $(this).parents('tr')[0];
+           var aData = miTabla.row(nRow).data();
+           var idDoctortor = aData.idDOctor;
+           alert("entramos en ajax"+ idDoctortor);
+
+           $.ajax({
+               /*en principio el type para api restful sería delete pero no lo recogeríamos en $_REQUEST, así que queda como POST*/
+               type: 'POST',
+               dataType: 'json',
+               url: 'php/borrar_clinica.php',
+               //estos son los datos que queremos actualizar, en json:
+               data: {
+                   id_doctor: idDoctortor
+               },
+               error: function(xhr, status, error) {
+                   //mostraríamos alguna ventana de alerta con el error
+                   alert("Ha entrado en error");
+               },
+               success: function(data) {
+                   //obtenemos el mensaje del servidor, es un array!!!
+                   //var mensaje = (data["mensaje"]) //o data[0], en función del tipo de array!!
+                   //actualizamos datatables:
+                   /*para volver a pedir vía ajax los datos de la tabla*/
+                   alert("success");
+                   
+                    var $mitabla = $("#miTabla").dataTable( { bRetrieve : true } );
+                    $mitabla.fnDraw();
+               },
+               complete: {
+                   //si queremos hacer algo al terminar la petición ajax
+                   //alert("success"); da errores, no poner
+
+               }
+           });
        });
 
 

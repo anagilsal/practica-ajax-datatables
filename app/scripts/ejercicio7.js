@@ -112,7 +112,7 @@
                    //var mensaje = (data["mensaje"]) //o data[0], en función del tipo de array!!
                    //actualizamos datatables:
                    /*para volver a pedir vía ajax los datos de la tabla*/
-                   miTabla.fnDraw();
+                    $miTabla.fnDraw();
                },
                complete: {
                    //si queremos hacer algo al terminar la petición ajax

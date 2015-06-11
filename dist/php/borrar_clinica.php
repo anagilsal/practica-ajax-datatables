@@ -26,19 +26,19 @@ if (!mysql_select_db($gaSql['db'], $gaSql['link'])) {
 
 mysql_query('SET names utf8');
 //$_REQUEST['id_clinica'] = 1;
-if (isset($_REQUEST['id_clinica'])) {
+if (isset($_REQUEST['id_doctor'])) {
     // param was set in the query string
-    if (empty($_REQUEST['id_clinica'])) {
-        return "El parámetro id_clinica viene vacio!";
+    if (empty($_REQUEST['id_doctor'])) {
+        return "El parámetro id_doctor viene vacio!";
     }
-    $id_clinica = $_REQUEST['id_clinica'];
+    $id_doc = $_REQUEST['id_doctor'];
 }
 
 /*
  * SQL queries
  * Get data to display
  */
-$query = "delete from clinicas where id_clinica=" . $id_clinica;
+$query = "delete from doctores where id_doctor=" . $id_doc;
 $query_res = mysql_query($query);
 
 // Comprobar el resultado
@@ -54,10 +54,18 @@ if (!$query_res) {
     $mensaje = "Actualización correcta";
     $estado = 0;
 }
+
 $resultado = array();
 $resultado[] = array(
     'mensaje' => $mensaje,
     'estado' => $estado
 );
 echo json_encode($resultado);
+
+//ejecutar:
+//ALTER TABLE doctores MODIFY id_doctor INTEGER NOT NULL AUTO_INCREMENT
+
+
 ?>
+
+
