@@ -37,7 +37,15 @@
            }, {
                'data': 'id_clinicas'
            }, {
-               'data': 'clinicas'
+               'data': 'clinicas',
+               'render': function(data) {
+                clinics = data.split(', ');
+                var lista = "";
+                $.each(clinics, function(ind, clinicas) {
+                    lista = lista + '<li>' + clinicas + '</li><br>';
+                });
+                return lista;
+            }
            }, {
                'data': 'idDOctor2',
                'render': function(data) {
