@@ -55,6 +55,7 @@
                }
            }]
        });
+
         function cargarTarifas() {
            $.ajax({
                type: 'POST',
@@ -145,6 +146,27 @@
            });
           }
        });
+         $('#añadirDoctor').click(function(e) {
+            e.preventDefault();
+           $('#tabla').fadeOut(100);
+           $('#formulario').fadeIn(100);
+
+           var nRow = $(this).parents('tr')[0];
+           var aData = miTabla.row(nRow).data();
+           $('#idDOCTOR').val(aData.idDOctor);
+           $('#nombre').val("");
+           $('#numColegiado').val("");
+ 
+           $('#CLiniks').val(aData.nombreClinica);
+           // Llamamos a la funcion que busca las clinicas y las añade al select
+           cargarTarifas();
+           // Seleccionamos y separamos las clinicas de la vista
+           var listaClinicas = aData.id_clinicas;
+           listaClinicas = listaClinicas.split(",");
+            // Añadimos las clinicas del doctor al select como selected
+           $('#CLiniks').val(listaClinicas);
+           
+ });
 
         $('#enviar').click(function(e) {
            e.preventDefault();
@@ -184,9 +206,6 @@
            $('#formulario').fadeOut(100);
 
        });
-
-
-
 
    });
 
