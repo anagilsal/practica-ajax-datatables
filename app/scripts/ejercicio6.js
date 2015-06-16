@@ -83,6 +83,34 @@
        }
        cargarTarifas();
 
+       function cargarTarifas2() {
+           $.ajax({
+               type: 'POST',
+               dataType: 'json',
+               url: 'php/listar_tarifas.php',
+               async: false,
+               //estos son los datos que queremos actualizar, en json:
+               // {parametro1: valor1, parametro2, valor2, ….}
+               //data: { id_clinica: id_clinica, nombre: nombre, ….,  id_tarifa: id_tarifa },
+               error: function(xhr, status, error) {
+                   //mostraríamos alguna ventana de alerta con el error
+               },
+               success: function(data) {
+                   $('#CLiniks2').empty();
+                   $.each(data, function() {
+                       $('#CLiniks2').append(
+                           $('<option></option>').val(this.idClinica).html(this.nombre)
+                       );
+                   });
+               },
+               complete: {
+                   //si queremos hacer algo al terminar la petición ajax
+               }
+           });
+       }
+       cargarTarifas2();
+
+
        /*Creamos la función que muestre el formulario cuando hagamos click*/
        /*ojo, es necesario hacerlo con el método ON. Tanto por rendimiento como porque puede haber elementos (botones) que todavía no existan en el document.ready*/
        $('#miTabla').on('click', '.editarbtn', function(e) {
@@ -149,22 +177,22 @@
          $('#añadirDoctor').click(function(e) {
             e.preventDefault();
            $('#tabla').fadeOut(100);
-           $('#formulario').fadeIn(100);
+           $('#formulario2').fadeIn(100);
 
            var nRow = $(this).parents('tr')[0];
            var aData = miTabla.row(nRow).data();
-           $('#idDOCTOR').val(aData.idDOctor);
-           $('#nombre').val("");
-           $('#numColegiado').val("");
+           $('#idDOCTOR').val(' ');
+           $('#nombre2').val(' ');
+           $('#numColegiado2').val(' ');
  
-           $('#CLiniks').val(aData.nombreClinica);
+           $('#CLiniks2').val(aData.nombreClinica);
            // Llamamos a la funcion que busca las clinicas y las añade al select
-           cargarTarifas();
+           cargarTarifas2();
            // Seleccionamos y separamos las clinicas de la vista
            var listaClinicas = aData.id_clinicas;
            listaClinicas = listaClinicas.split(",");
             // Añadimos las clinicas del doctor al select como selected
-           $('#CLiniks').val(listaClinicas);
+           $('#CLiniks2').val(listaClinicas);
            
  });
 
@@ -204,6 +232,42 @@
 
            $('#tabla').fadeIn(100);
            $('#formulario').fadeOut(100);
+
+       });
+           $('#enviar2').click(function(e) {
+           e.preventDefault();
+           var nombre2 = $('#nombre2').val();
+           var numCol2 = $('#numColegiado2').val();
+           var clinicasElegidas2 = $('#CLiniks2').val();
+           
+           $.ajax({
+               type: 'POST',
+               dataType: 'json',
+               url: 'php/nuevo_doctor.php',
+               //lo más cómodo sería mandar los datos mediante 
+               //var data = $( "form" ).serialize();
+               //pero como el php tiene otros nombres de variables, lo dejo así
+               //estos son los datos que queremos actualizar, en json:
+               data: {
+                   nombre: nombre2,
+                   colegiado:numCol2,
+                   clins:clinicasElegidas2
+               },
+
+               error: function(xhr, status, error) {
+                   //mostraríamos alguna ventana de alerta con el error
+               },
+               success: function(data) {
+                  var $mitabla =  $("#miTabla").dataTable( { bRetrieve : true } );
+                  $mitabla.fnDraw();
+               },
+               complete: {
+                   //si queremos hacer algo al terminar la petición ajax
+               }
+           });
+
+           $('#tabla').fadeIn(100);
+           $('#formulario2').fadeOut(100);
 
        });
 
