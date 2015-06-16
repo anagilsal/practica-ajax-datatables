@@ -1,4 +1,10 @@
    'use strict';
+
+   $.validator.addMethod("sololetras", function(value, element) {
+    return this.optional(element) || /^[áéíóúÁÉÍÓÚA-Za-zñÑ ]+$/i.test(value);
+}, "Solo se aceptan letras");
+
+
    $(document).ready(function() {
        var miTabla = $('#miTabla').DataTable({
            'processing': true,
@@ -55,6 +61,114 @@
                }
            }]
        });
+    $('#form2').validate({
+              rules: 
+              {
+                  nombre2:{required: true,sololetras: true },
+                  numColegiado2:{digits: true},
+                  CLiniks2:{required:true}
+              },
+              messages:
+              {
+                  nombre2: {required:'obligatorio',sololetras:'solo letras' },
+                  numColegiado2: {digits:'solo numeros'},
+                  CLiniks2:{required:'minimo 1'}
+
+              },
+            submitHandler: function() 
+            {
+                 var nombre2 = $('#nombre2').val();
+                 var numCol2 = $('#numColegiado2').val();
+                 var clinicasElegidas2 = $('#CLiniks2').val();
+                 
+                 $.ajax({
+                     type: 'POST',
+                     dataType: 'json',
+                     url: 'php/nuevo_doctor.php',
+                     //lo más cómodo sería mandar los datos mediante 
+                     //var data = $( "form" ).serialize();
+                     //pero como el php tiene otros nombres de variables, lo dejo así
+                     //estos son los datos que queremos actualizar, en json:
+                     data: {
+                         nombre: nombre2,
+                         colegiado:numCol2,
+                         clins:clinicasElegidas2
+                     },
+
+                     error: function(xhr, status, error) {
+                         //mostraríamos alguna ventana de alerta con el error
+                     },
+                     success: function(data) {
+                        var $mitabla =  $("#miTabla").dataTable( { bRetrieve : true } );
+                        $mitabla.fnDraw();
+                        alert('insertado');
+                     },
+                     complete: {
+                         //si queremos hacer algo al terminar la petición ajax
+                         
+                     }
+                 }); //fin ajax
+
+                 $('#tabla').fadeIn(100);
+                 $('#formulario2').fadeOut(100);
+
+       } //fin handler
+   }); //fin formulario validate
+   $('#form1').validate({
+              rules: 
+              {
+                  nombre:{required: true,sololetras: true },
+                  numColegiado:{digits: true},
+                  CLiniks:{required:true}
+              },
+              messages:
+              {
+                  nombre: {required:'obligatorio',sololetras:'solo letras' },
+                  numColegiado: {digits:'solo numeros'},
+                  CLiniks:{required:'minimo 1'}
+
+              },
+            submitHandler: function() 
+            {
+                 idDoctor = $('#idDOCTOR').val();
+                 nombre = $('#nombre').val();
+                 numCol = $('#numColegiado').val();
+                 clinicasElegidas = $('#CLiniks').val();
+                 
+                 $.ajax({
+                     type: 'POST',
+                     dataType: 'json',
+                     url: 'php/modificar_clinica.php',
+                     //lo más cómodo sería mandar los datos mediante 
+                     //var data = $( "form" ).serialize();
+                     //pero como el php tiene otros nombres de variables, lo dejo así
+                     //estos son los datos que queremos actualizar, en json:
+                     data: {
+                         id_doctor: idDoctor,
+                         nombre: nombre,
+                         colegiado:numCol,
+                         clins:clinicasElegidas
+                     },
+
+                     error: function(xhr, status, error) {
+                         //mostraríamos alguna ventana de alerta con el error
+                     },
+                     success: function(data) {
+                         alert('editado');
+                        var $mitabla =  $("#miTabla").dataTable( { bRetrieve : true } );
+                        $mitabla.fnDraw();
+
+                     },
+                     complete: {
+                         
+                     }
+                     });//fin ajax
+
+                       $('#tabla').fadeIn(100);
+                       $('#formulario').fadeOut(100);
+
+       } //fin handler
+   }); //fin formulario validate
 
         function cargarTarifas() {
            $.ajax({
@@ -196,82 +310,8 @@
            
  });
 
-        $('#enviar').click(function(e) {
-           e.preventDefault();
-           idDoctor = $('#idDOCTOR').val();
-           nombre = $('#nombre').val();
-           numCol = $('#numColegiado').val();
-           clinicasElegidas = $('#CLiniks').val();
-           
-           $.ajax({
-               type: 'POST',
-               dataType: 'json',
-               url: 'php/modificar_clinica.php',
-               //lo más cómodo sería mandar los datos mediante 
-               //var data = $( "form" ).serialize();
-               //pero como el php tiene otros nombres de variables, lo dejo así
-               //estos son los datos que queremos actualizar, en json:
-               data: {
-                   id_doctor: idDoctor,
-                   nombre: nombre,
-                   colegiado:numCol,
-                   clins:clinicasElegidas
-               },
 
-               error: function(xhr, status, error) {
-                   //mostraríamos alguna ventana de alerta con el error
-               },
-               success: function(data) {
-                  var $mitabla =  $("#miTabla").dataTable( { bRetrieve : true } );
-                  $mitabla.fnDraw();
-               },
-               complete: {
-                   //si queremos hacer algo al terminar la petición ajax
-               }
-           });
-
-           $('#tabla').fadeIn(100);
-           $('#formulario').fadeOut(100);
-
-       });
-           $('#enviar2').click(function(e) {
-           e.preventDefault();
-           var nombre2 = $('#nombre2').val();
-           var numCol2 = $('#numColegiado2').val();
-           var clinicasElegidas2 = $('#CLiniks2').val();
-           
-           $.ajax({
-               type: 'POST',
-               dataType: 'json',
-               url: 'php/nuevo_doctor.php',
-               //lo más cómodo sería mandar los datos mediante 
-               //var data = $( "form" ).serialize();
-               //pero como el php tiene otros nombres de variables, lo dejo así
-               //estos son los datos que queremos actualizar, en json:
-               data: {
-                   nombre: nombre2,
-                   colegiado:numCol2,
-                   clins:clinicasElegidas2
-               },
-
-               error: function(xhr, status, error) {
-                   //mostraríamos alguna ventana de alerta con el error
-               },
-               success: function(data) {
-                  var $mitabla =  $("#miTabla").dataTable( { bRetrieve : true } );
-                  $mitabla.fnDraw();
-               },
-               complete: {
-                   //si queremos hacer algo al terminar la petición ajax
-               }
-           });
-
-           $('#tabla').fadeIn(100);
-           $('#formulario2').fadeOut(100);
-
-       });
-
-   });
+   }); 
 
    /* En http://www.datatables.net/reference/option/ hemos encontrado la ayuda necesaria
    para utilizar el API de datatables para el render de los botones */
